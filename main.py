@@ -82,9 +82,12 @@ def main():
         st.header('Sys Field', divider='rainbow')
         on2 = st.toggle("I need upload my own template file!")
         if on2:
-            uploaded_template_file = st.file_uploader("upload template xlsx", type=['xlsx'])
+            uploaded_template_file = st.file_uploader("upload template xlsx", type=['xlsx', 'csv'])
             if uploaded_template_file:
-                df = pd.read_excel(uploaded_template_file)
+                if uploaded_template_file.name.endswith('xlsx'):
+                    df = pd.read_excel(uploaded_template_file)
+                else:
+                    df = pd.read_csv(uploaded_template_file)
         else:
             option = st.selectbox(
                 "choose template",

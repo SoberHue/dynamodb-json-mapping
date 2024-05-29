@@ -51,10 +51,12 @@ class JsonMapper:
             df = df.drop('id', axis=1)
         if 'column_sequence' in df.columns:
             df = df.drop('column_sequence', axis=1)
-        id_column = pd.Series(range(self._start_id, self._start_id + len(df)))
+        id_column = pd.Series(range(self._start_id, self._start_id + len(df))).astype(str)
         df.insert(0, 'id', id_column)
         self._start_id = df['id'].iloc[-1] + 1
         df['column_sequence'] = df.groupby(self._group).cumcount() + 1
+        df['column_sequence'] = df['column_sequence'].astype(str)
+        df = df.fillna("None")
         if self._name_group:
             for name, group in df.groupby(self._name_group):
                 if self._hierarchical_namespace:
