@@ -116,9 +116,7 @@ def main():
                 ["target_database", "target_schema", "target_table", ])
         if st.button("Generate JSON file", type="primary"):
             # clear cache
-            #temp_path = Path(__file__).parent / "static" / "temp"
             temp_path = Path("./static/temp")
-            print(str(temp_path))
             count = count_files_and_directories(temp_path)
             if count > MAX_TEMP_FILES:
                 remove_all_contents(temp_path)
