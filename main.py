@@ -84,7 +84,7 @@ def main():
         if on2:
             uploaded_template_file = st.file_uploader("upload template xlsx", type=['xlsx'])
             if uploaded_template_file:
-                df = pd.read_excel(io.BytesIO(uploaded_template_file))
+                df = pd.read_excel(uploaded_template_file)
         else:
             option = st.selectbox(
                 "choose template",
