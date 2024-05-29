@@ -26,7 +26,8 @@ def generate_json(uploaded_file, df, start_id, group, hierarchical_namespace):
 
 def count_files_and_directories(directory_path):
     if not directory_path.exists() or not directory_path.is_dir():
-        raise ValueError(f"The path '{directory_path}' does not exist or is not a directory.")
+        directory_path.mkdir()
+        return 0
     file_count = sum(1 for item in directory_path.iterdir() if item.is_file())
     dir_count = sum(1 for item in directory_path.iterdir() if item.is_dir())
     return file_count + dir_count
@@ -115,7 +116,9 @@ def main():
                 ["target_database", "target_schema", "target_table", ])
         if st.button("Generate JSON file", type="primary"):
             # clear cache
-            temp_path = Path(__file__).parent / "static" / "temp"
+            #temp_path = Path(__file__).parent / "static" / "temp"
+            temp_path = Path("./static/temp")
+            print(str(temp_path))
             count = count_files_and_directories(temp_path)
             if count > MAX_TEMP_FILES:
                 remove_all_contents(temp_path)
