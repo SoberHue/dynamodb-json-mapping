@@ -47,7 +47,6 @@ def remove_all_contents(directory_path):
 
 
 def main():
-    st.set_page_config(page_title="JsonMapper", page_icon="🌞", layout="wide")
     st.title("JSON Generator")
     st.markdown(
         """
@@ -55,15 +54,15 @@ def main():
         ##### UploadFile:
         + 参照 Download Test Excel
         + 支持多个Sheet页
-        
+
         ##### id 和 column_sequence
         + id 根据页面设置 Input Start Number 开始累加生成,不必在UploadFile添加
         + column_sequence 按照 固定的组 ["target_database", "target_schema", "target_table"] 自动生成,不必在UploadFile添加
-        
+
         ##### Sys Field 添加系统字段
         + 使用当前cdp模板 choose template -> sci_template
         + 自定义模板点击 I need upload my own template file! 即可上传(还没测)
-        
+
         ##### Json Result
         + 默认 Excel 中所有条目和Sheet页内容生成一个文件
         + Generate separate JSON files based on groups? 选项支持 按照指定的分组 生成文件,注意此分组和上面生成id和column_sequence的固定组是分开的
@@ -76,10 +75,10 @@ def main():
     uploaded_file = st.file_uploader("Upload Prepared Excel", type=['xlsx'])
     start_id = st.number_input("Input Start Number:  :rainbow[[id]]", value=None,
                                placeholder="Type a number...", step=1)
+    st.header('Sys Field', divider='rainbow')
     on1 = st.toggle("Add SysField")
     df = pd.DataFrame()
     if on1:
-        st.header('Sys Field', divider='rainbow')
         on2 = st.toggle("I need upload my own template file!")
         if on2:
             uploaded_template_file = st.file_uploader("upload template xlsx", type=['xlsx', 'csv'])
@@ -95,7 +94,7 @@ def main():
                 index=None,
                 placeholder="Choose a exists template.")
             if option == "sci_template":
-                df = pd.read_excel(Path(__file__).parent / "static" / "template" / "extra_df.xlsx")
+                df = pd.read_excel("static/template/extra_df.xlsx")
 
         if not df.empty:
             #     columns = df.columns
