@@ -12,8 +12,8 @@ MAX_TEMP_FILES = 10
 TEST_EXCEL = Path("static/test.xlsx")
 
 
-def generate_json(uploaded_file, df, start_id, group, hierarchical_namespace):
-    json_mapper = JsonMapper(uploaded_file, df, start_id, group, hierarchical_namespace)
+def generate_json(uploaded_file, df, group, hierarchical_namespace):
+    json_mapper = JsonMapper(uploaded_file, df, group, hierarchical_namespace)
     json_mapper.convert_all_sheets()
     output_zip = json_mapper.compress_folder()
 
@@ -56,8 +56,8 @@ def main():
         + 支持多个Sheet页
 
         ##### id 和 column_sequence
-        + id 根据页面设置 Input Start Number 开始累加生成,不必在UploadFile添加
-        + column_sequence 按照 固定的组 ["target_database", "target_schema", "target_table"] 自动生成,不必在UploadFile添加
+        + id 按照 固定的组 ["target_database", "target_schema", "target_table"] 使用'-' 拼接生成,不必在UploadFile添加,作为dynamodb的 Partition Key
+        + column_sequence 按照 固定的组 ["target_database", "target_schema", "target_table"] 排序生成,不必在UploadFile添加,作为dynamodb的Sort Key
 
         ##### Sys Field 添加系统字段
         + 使用当前cdp模板 choose template -> sci_template
@@ -73,8 +73,8 @@ def main():
     st.header('Upload File', divider='rainbow')
 
     uploaded_file = st.file_uploader("Upload Prepared Excel", type=['xlsx'])
-    start_id = st.number_input("Input Start Number:  :rainbow[[id]]", value=None,
-                               placeholder="Type a number...", step=1)
+    # start_id = st.number_input("Input Start Number:  :rainbow[[id]]", value=None,
+    #                            placeholder="Type a number...", step=1)
     st.header('Sys Field', divider='rainbow')
     on1 = st.toggle("Add SysField")
     df = pd.DataFrame()
@@ -105,7 +105,7 @@ def main():
             #         if result:
             #             df[col] = result
             df = st.data_editor(df, hide_index=True, use_container_width=True, num_rows="dynamic")
-    if uploaded_file and start_id:
+    if uploaded_file:
         st.header('Json Result', divider='rainbow')
         on3 = st.toggle("Generate separate JSON files based on groups?")
         group = None
@@ -124,9 +124,9 @@ def main():
                 remove_all_contents(temp_path)
             # run
             if on4:
-                generate_json(uploaded_file, df, start_id, group, True)
+                generate_json(uploaded_file, df,  group, True)
             else:
-                generate_json(uploaded_file, df, start_id, group, False)
+                generate_json(uploaded_file, df,  group, False)
 
 
 if __name__ == '__main__':

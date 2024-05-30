@@ -15,7 +15,7 @@ from tools.utils import current_time
 class JsonMapper:
     _excel_bytes: io.BytesIO
     _extra_df: pd.DataFrame
-    _start_id: int
+    # _start_id: int
     _group = ['target_database', 'target_schema', 'target_table']
     _name_group: List = None
     _hierarchical_namespace: bool = False
@@ -50,10 +50,15 @@ class JsonMapper:
             df = df.drop('id', axis=1)
         if 'column_sequence' in df.columns:
             df = df.drop('column_sequence', axis=1)
-        id_column = pd.Series(range(self._start_id, self._start_id + len(df)))
-        df.insert(0, 'id', id_column)
-        self._start_id = df['id'].iloc[-1] + 1
-        df['id'] = df['id'].astype(str)
+        # id 根据 target_database 'target_schema' 'target_table' 生成
+        # id_column = pd.Series(range(self._start_id, self._start_id + len(df)))
+        # df.insert(0, 'id', id_column)
+        # self._start_id = df['id'].iloc[-1] + 1
+        # df['id'] = df['id'].astype(str)
+        df[self._group[0]] = df[self._group[0]].astype(str)
+        df[self._group[1]] = df[self._group[1]].astype(str)
+        df[self._group[2]] = df[self._group[2]].astype(str)
+        df['id'] = df[self._group[0]].str.cat([df[self._group[1]], df[self._group[2]]], sep='-')
         df['column_sequence'] = df.groupby(self._group).cumcount() + 1
         df['column_sequence'] = df['column_sequence'].astype(str)
         df = df.fillna("None")

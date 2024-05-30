@@ -1,8 +1,7 @@
 import streamlit as st
 from io import StringIO
 from pathlib import Path
-from tools.utils import current_time,download_button
-
+from tools.utils import current_time, download_button
 
 
 def main():
@@ -16,11 +15,10 @@ def main():
                 data = json.loads(stringio.read())
 
                 for index, item in enumerate(data, start=1):
-                    item["id"] = str(index)
-
+                    item["id"] = f"{item['target_database']}-{item['target_schema']}-{item['target_table']}"
                 updated_json_data = json.dumps(data, indent=4)
-                temp_file = Path(f"./static/temp/{int(current_time())}.json")
-                with open(temp_file,'w') as f:
+                temp_file = Path(f"static/temp/{int(current_time())}.json")
+                with open(temp_file, 'w') as f:
                     f.write(updated_json_data)
                 download_button("Download Converted JSON", temp_file, 'json')
 
