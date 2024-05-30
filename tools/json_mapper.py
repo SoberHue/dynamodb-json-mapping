@@ -1,15 +1,14 @@
 import pandas as pd
 from dataclasses import dataclass, field
 from pathlib import Path
-import datetime
 import streamlit as st
 import io
 import shutil
 from typing import List
+from utils import current_time
 
 
-def current_time():
-    return int(datetime.datetime.now().timestamp() * 1000)
+
 
 
 @dataclass
