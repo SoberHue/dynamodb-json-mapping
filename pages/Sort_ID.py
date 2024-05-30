@@ -6,6 +6,11 @@ from tools.utils import current_time, download_button
 
 def main():
     st.title("Sort ID")
+    on1 = st.toggle("According Group or Index")
+    if on1:
+        st.write("According Group")
+    else:
+        st.write("According Index")
     uploaded_template_file = st.file_uploader("upload json", type=['json'])
     if uploaded_template_file:
         if st.button("Generate JSON file", type="primary"):
@@ -15,7 +20,10 @@ def main():
                 data = json.loads(stringio.read())
 
                 for index, item in enumerate(data, start=1):
-                    item["id"] = f"{item['target_database']}-{item['target_schema']}-{item['target_table']}"
+                    if on1:
+                        item["id"] = f"{item['target_database']}-{item['target_schema']}-{item['target_table']}"
+                    else:
+                        item["id"] = str(index)
                 updated_json_data = json.dumps(data, indent=4)
                 temp_file = Path(f"static/temp/{int(current_time())}.json")
                 with open(temp_file, 'w') as f:

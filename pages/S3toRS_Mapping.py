@@ -88,13 +88,16 @@ def main():
                 else:
                     df = pd.read_csv(uploaded_template_file)
         else:
+            # 获取 模板文件
+            template_path = Path('static/template/')
+            xlsx_files = list(template_path.glob('**/*.xlsx'))
             option = st.selectbox(
                 "choose template",
-                ("sci_template",),
+                (i.stem for i in xlsx_files),
                 index=None,
                 placeholder="Choose a exists template.")
-            if option == "sci_template":
-                df = pd.read_excel("static/template/extra_df.xlsx")
+            if option in (i.stem for i in xlsx_files):
+                df = pd.read_excel(f"static/template/{option}.xlsx")
 
         if not df.empty:
             #     columns = df.columns
