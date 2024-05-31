@@ -7,10 +7,13 @@ from tools.utils import current_time, download_button
 def main():
     st.title("Sort ID")
     on1 = st.toggle("According Group or Index")
+    start_id = 1
     if on1:
         st.write("According Group")
     else:
         st.write("According Index")
+        start_id = st.number_input("Input Start Number:  :rainbow[[id]]", value=1,
+                                   placeholder="Type a number...", step=1)
     uploaded_template_file = st.file_uploader("upload json", type=['json'])
     if uploaded_template_file:
         if st.button("Generate JSON file", type="primary"):
@@ -19,7 +22,7 @@ def main():
                 stringio = StringIO(uploaded_template_file.getvalue().decode("utf-8"))
                 data = json.loads(stringio.read())
 
-                for index, item in enumerate(data, start=1):
+                for index, item in enumerate(data, start=start_id):
                     if on1:
                         item["id"] = f"{item['target_database']}-{item['target_schema']}-{item['target_table']}"
                     else:
