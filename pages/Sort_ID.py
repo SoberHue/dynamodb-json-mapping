@@ -24,7 +24,7 @@ def main():
 
                 for index, item in enumerate(data, start=start_id):
                     if on1:
-                        item["id"] = f"{item['target_database']}-{item['target_schema']}-{item['target_table']}"
+                        item["id"] = f"{item['target_database']}.{item['target_schema']}.{item['target_table']}"
                     else:
                         item["id"] = str(index)
                 updated_json_data = json.dumps(data, indent=4)
