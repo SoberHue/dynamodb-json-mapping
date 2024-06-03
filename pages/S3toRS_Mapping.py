@@ -13,10 +13,13 @@ TEST_EXCEL = Path("static/test.xlsx")
 
 
 def generate_json(uploaded_file, df, group, hierarchical_namespace):
-    json_mapper = JsonMapper(uploaded_file, df, group, hierarchical_namespace)
+    json_mapper = JsonMapper(uploaded_file, df, _name_group=group, _hierarchical_namespace=hierarchical_namespace)
     json_mapper.convert_all_sheets()
+    if not group and not hierarchical_namespace:
+        if json_mapper.single_json_file:
+            download_button("Download Template Excel", json_mapper.single_json_file, 'json')
+            return
     output_zip = json_mapper.compress_folder()
-
     if output_zip:
         st.success("Convert success!Please download zip file!")
         download_button("Download Template Excel", output_zip, 'zip')
