@@ -80,7 +80,7 @@ class JsonMapper:
             updated_groups.append(reordered_group)
         # 合并所有处理后的分组
         df = pd.concat(updated_groups, ignore_index=True)
-        df['id'] = df[self._group[0]].str.cat([df[self._group[1]], df[self._group[2]]], sep='-')
+        df['id'] = df[self._group[0]].str.cat([df[self._group[1]], df[self._group[2]]], sep='.')
         df['column_sequence'] = df.groupby(self._group).cumcount() + 1
         df['column_sequence'] = df['column_sequence'].astype(str)
         df = df.fillna("None")
