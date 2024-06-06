@@ -72,17 +72,17 @@ def main():
         + 如果文件命名过长生成失败可以开启 hierarchical_namespace 递归目录生成文件.
         """
     )
-    download_button("Download Test Excel", TEST_EXCEL, 'xlsx')
-    st.header('Upload File', divider='rainbow')
+    download_button("download test excel", TEST_EXCEL, 'xlsx')
+    st.header('upload file', divider='rainbow')
 
-    uploaded_file = st.file_uploader("Upload Prepared Excel", type=['xlsx'])
+    uploaded_file = st.file_uploader("upload prepared excel", type=['xlsx'])
     # start_id = st.number_input("Input Start Number:  :rainbow[[id]]", value=None,
     #                            placeholder="Type a number...", step=1)
-    st.header('Sys Field', divider='rainbow')
-    on1 = st.toggle("Add SysField")
+    st.header('sys field', divider='rainbow')
+    on1 = st.toggle("add sys field")
     df = pd.DataFrame()
     if on1:
-        on2 = st.toggle("I need upload my own template file!")
+        on2 = st.toggle("upload my own template")
         if on2:
             uploaded_template_file = st.file_uploader("upload template xlsx", type=['xlsx', 'csv'])
             if uploaded_template_file:
@@ -98,7 +98,7 @@ def main():
                 "choose template",
                 (i.stem for i in xlsx_files),
                 index=None,
-                placeholder="Choose a exists template.")
+                placeholder="choose a exists template.")
             if option in (i.stem for i in xlsx_files):
                 df = pd.read_excel(f"static/template/{option}.xlsx")
 
@@ -112,17 +112,17 @@ def main():
             #             df[col] = result
             df = st.data_editor(df, hide_index=True, use_container_width=True, num_rows="dynamic")
     if uploaded_file:
-        st.header('Json Result', divider='rainbow')
-        on3 = st.toggle("Generate separate JSON files based on groups?")
+        st.header('json result', divider='rainbow')
+        on3 = st.toggle("generate separate JSON files based on groups")
         group = None
         on4 = False
         if on3:
-            on4 = st.toggle("hierarchical_namespace")
+            on4 = st.toggle("hierarchical namespace")
             group = st.multiselect(
-                "Pick Group",
+                "pick group",
                 ["target_database", "target_schema", "target_table", ],
                 ["target_database", "target_schema", "target_table", ])
-        if st.button("Generate JSON file", type="primary"):
+        if st.button("generate JSON file", type="primary"):
             # clear cache
             temp_path = Path("./static/temp")
             count = count_files_and_directories(temp_path)
