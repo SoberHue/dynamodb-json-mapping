@@ -6,18 +6,18 @@ from tools.utils import current_time, download_button
 
 def main():
     st.title("Sort ID")
-    on1 = st.toggle("According Group or Index")
+    on1 = st.toggle("according group or index")
     start_id = 1
     if on1:
-        st.write("According Group")
+        st.write("according group")
     else:
-        st.write("According Index")
-        start_id = st.number_input("Input Start Number:  :rainbow[[id]]", value=1,
-                                   placeholder="Type a number...", step=1)
-    uploaded_template_file = st.file_uploader("upload json", type=['json'])
+        st.write("according index")
+        start_id = st.number_input("input start number:  :rainbow[[id]]", value=1,
+                                   placeholder="type a number...", step=1)
+    uploaded_template_file = st.file_uploader("upload JSON", type=['json'])
     if uploaded_template_file:
-        if st.button("Generate JSON file", type="primary"):
-            with st.spinner('Wait for it...'):
+        if st.button("generate JSON file", type="primary"):
+            with st.spinner('wait for it...'):
                 import json
                 stringio = StringIO(uploaded_template_file.getvalue().decode("utf-8"))
                 data = json.loads(stringio.read())

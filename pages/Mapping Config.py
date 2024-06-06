@@ -54,21 +54,21 @@ def main():
     st.markdown(
         """
         #### 使用说明:
-        ##### UploadFile:
-        + 参照 Download Test Excel
+        ##### upload file:
+        + 参照 download test excel
         + 支持多个Sheet页
 
         ##### id 和 column_sequence
-        + id 按照 固定的组 ["target_database", "target_schema", "target_table"] 使用'-' 拼接生成,不必在UploadFile添加,作为dynamodb的 Partition Key
-        + column_sequence 按照 固定的组 ["target_database", "target_schema", "target_table"] 排序生成,不必在UploadFile添加,作为dynamodb的Sort Key
+        + id 按照 固定的组 ["target_database", "target_schema", "target_table"] 使用'-' 拼接生成,不必在 upload file 添加,作为 dynamodb 的 partition key
+        + column_sequence 按照 固定的组 ["target_database", "target_schema", "target_table"] 排序生成,不必在 upload file 添加,作为 dynamodb 的 sort key
 
-        ##### Sys Field 添加系统字段
+        ##### sys field 添加系统字段
         + 使用当前cdp模板 choose template -> sci_template
-        + 自定义模板点击 I need upload my own template file! 即可上传(还没测)
+        + 自定义模板点击 upload my own template 即可上传
 
-        ##### Json Result
-        + 默认 Excel 中所有条目和Sheet页内容生成一个文件
-        + Generate separate JSON files based on groups? 选项支持 按照指定的分组 生成文件,注意此分组和上面生成id和column_sequence的固定组是分开的
+        ##### json result
+        + 默认 excel 中所有条目和Sheet页内容生成一个文件
+        + generate separate JSON files based on groups 选项支持 按照指定的分组 生成文件
         + 如果文件命名过长生成失败可以开启 hierarchical_namespace 递归目录生成文件.
         """
     )
